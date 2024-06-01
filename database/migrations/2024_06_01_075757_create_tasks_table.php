@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tasks', function (Blueprint $table) {
+            //Table Attributes
             $table->id();
             $table->timestamps();
             $table->string("name");
@@ -21,8 +22,11 @@ return new class extends Migration
             $table->string("priority");
             $table->timestamp("due_date");
 
+            //Foreign Keys
+            $table->foreignId("assigned_user_id")->constrained("users");
             $table->foreignId("created_by")->constrained("users");
             $table->foreignId("updated_by")->constrained("users");
+            $table->foreignId("project_id")->constrained("projects");
         });
     }
 
