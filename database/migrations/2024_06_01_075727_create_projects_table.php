@@ -20,10 +20,9 @@ return new class extends Migration
             $table->string("status");
             $table->string("image_path")->nullable();
 
-            $table->foreignId("assigned_user_id")->constrained("users");
+            //Foreign Keys
             $table->foreignId("created_by")->constrained("users");
             $table->foreignId("updated_by")->constrained("users");
-            $table->foreignId("project_id")->constrained("projects");
         });
     }
 
