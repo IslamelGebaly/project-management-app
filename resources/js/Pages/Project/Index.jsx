@@ -8,6 +8,8 @@ import { Head, Link, router } from "@inertiajs/react";
 import React from "react";
 import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
+import TableHead from "@/Components/TableHead";
+
 const Index = ({ auth, projects, filterParams = null }) => {
   //ensures that filter params are treated as an object when its empty
   filterParams = filterParams || {};
@@ -31,6 +33,8 @@ const Index = ({ auth, projects, filterParams = null }) => {
     searchFieldChanged(name, e.target.value);
   };
 
+  //When the user clicks on a column heading change the sorting order and send the sort field.
+  //Update the Route
   const sortColumn = (name) => {
     if (filterParams["sort_order"]) {
       if (filterParams["sort_order"] === "asc") {
@@ -73,14 +77,47 @@ const Index = ({ auth, projects, filterParams = null }) => {
                 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500"
                 >
                   <tr className="text-nowrap">
-                    <th onClick={(e) => sortColumn("id")} className="px-3 py-3">
+                    <TableHead
+                      name="id"
+                      sort_field={filterParams["sort_field"]}
+                      sort_order={filterParams["sort_order"]}
+                      sortColumn={sortColumn}
+                    >
                       ID
-                    </th>
+                    </TableHead>
                     <th className="px-3 py-3">Image</th>
-                    <th className="px-3 py-3">Name</th>
-                    <th className="px-3 py-3">Status</th>
-                    <th className="px-3 py-3">Creation Date</th>
-                    <th className="px-3 py-3">Due Date</th>
+                    <TableHead
+                      name="name"
+                      sort_field={filterParams["sort_field"]}
+                      sort_order={filterParams["sort_order"]}
+                      sortColumn={sortColumn}
+                    >
+                      Name
+                    </TableHead>
+                    <TableHead
+                      name="status"
+                      sort_field={filterParams["sort_field"]}
+                      sort_order={filterParams["sort_order"]}
+                      sortColumn={sortColumn}
+                    >
+                      Status
+                    </TableHead>
+                    <TableHead
+                      name="creation_date"
+                      sort_field={filterParams["sort_field"]}
+                      sort_order={filterParams["sort_order"]}
+                      sortColumn={sortColumn}
+                    >
+                      Creation Date
+                    </TableHead>
+                    <TableHead
+                      name="due_date"
+                      sort_field={filterParams["sort_field"]}
+                      sort_order={filterParams["sort_order"]}
+                      sortColumn={sortColumn}
+                    >
+                      Due Date
+                    </TableHead>
                     <th className="px-3 py-3">Created By</th>
                     <th className="px-3 py-3 text-right">Actions</th>
                   </tr>
@@ -117,7 +154,14 @@ const Index = ({ auth, projects, filterParams = null }) => {
                         <option value="in_progress">In Progress</option>
                       </SelectInput>
                     </th>
-                    <th className="px-3 py-3"></th>
+                    <th className="px-3 py-3">
+                      <Link
+                        href={route("project.index")}
+                        className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                      >
+                        Clear Filter
+                      </Link>
+                    </th>
                     <th className="px-3 py-3"></th>
                     <th className="px-3 py-3"></th>
                     <th className="px-3 py-3 text-right"></th>
