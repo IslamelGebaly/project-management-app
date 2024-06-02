@@ -17,12 +17,21 @@ class ProjectController extends Controller
         //Get all projects
         $query = Project::query();
 
+        //filter by name
+        if(request("name"))
+            $query->where("name", "like","%". request("name") ."%");
+
+        //filter by status
+        if(request("status"))
+            $query->where("status", request("status"));
+
         //Show one project on each page
         $projects = $query->paginate(10)->onEachSide(1);
 
         //Return the react page
         return inertia("Project/Index", [
-            "projects" => ProjectResource::collection($projects)
+            "projects" => ProjectResource::collection($projects),
+            "filterParams" => request()->query() ?: null
         ]);
     }
 
