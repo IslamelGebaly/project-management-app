@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 
+//Implements pagination
 const Pagination = ({ links }) => {
   return (
     <nav className="text-center mt-4">
