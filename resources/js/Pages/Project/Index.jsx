@@ -31,6 +31,21 @@ const Index = ({ auth, projects, filterParams = null }) => {
     searchFieldChanged(name, e.target.value);
   };
 
+  const sortColumn = (name) => {
+    if (filterParams["sort_order"]) {
+      if (filterParams["sort_order"] === "asc") {
+        filterParams["sort_order"] = "desc";
+      } else {
+        filterParams["sort_order"] = "asc";
+      }
+    } else {
+      filterParams["sort_order"] = "asc";
+    }
+    filterParams["sort_field"] = name;
+
+    router.get(route("project.index"), filterParams);
+  };
+
   return (
     <Authenticated
       user={auth.user}
@@ -58,7 +73,9 @@ const Index = ({ auth, projects, filterParams = null }) => {
                 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500"
                 >
                   <tr className="text-nowrap">
-                    <th className="px-3 py-3">ID</th>
+                    <th onClick={(e) => sortColumn("id")} className="px-3 py-3">
+                      ID
+                    </th>
                     <th className="px-3 py-3">Image</th>
                     <th className="px-3 py-3">Name</th>
                     <th className="px-3 py-3">Status</th>
