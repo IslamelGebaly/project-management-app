@@ -17,6 +17,10 @@ class ProjectController extends Controller
         //Get all projects
         $query = Project::query();
 
+        //Get sort parameters
+        $sort_field = request("sort_field", "id");
+        $sort_order = request("sort_order","asc");
+
         //filter by name
         if(request("name"))
             $query->where("name", "like","%". request("name") ."%");
@@ -26,7 +30,10 @@ class ProjectController extends Controller
             $query->where("status", request("status"));
 
         //Show one project on each page
-        $projects = $query->paginate(10)->onEachSide(1);
+        $projects = $query
+                          ->orderBy($sort_field, $sort_order)
+                          ->paginate(10)
+                          ->onEachSide(1);
 
         //Return the react page
         return inertia("Project/Index", [
