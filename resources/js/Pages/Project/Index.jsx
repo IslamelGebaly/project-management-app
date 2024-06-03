@@ -54,12 +54,20 @@ const Index = ({ auth, projects, filterParams = null }) => {
     <Authenticated
       user={auth.user}
       header={
-        <h2
-          className="font-semibold text-xl
+        <div className="flex justify-between">
+          <h2
+            className="font-semibold text-xl
        text-gray-800 dark:text-gray-200 leading-tight"
-        >
-          Projects
-        </h2>
+          >
+            Projects
+          </h2>
+          <Link
+            href={route("project.create")}
+            className="text-white bg-blue-600 rounded-sm p-2"
+          >
+            New Project
+          </Link>
+        </div>
       }
     >
       <Head title="Projects" />
