@@ -3,7 +3,12 @@ import TableHead from "./TableHead";
 import TextInput from "./TextInput";
 import SelectInput from "./SelectInput";
 import { Link, router } from "@inertiajs/react";
-import { TASK_STATUS_TEXT_MAP, TASK_STATUS_CLASS_MAP } from "@/constants";
+import {
+  TASK_STATUS_TEXT_MAP,
+  TASK_STATUS_CLASS_MAP,
+  TASK_PRIORITY_CLASS_MAP,
+  TASK_PRIORITY_TEXT_MAP,
+} from "@/constants";
 import Pagination from "./Pagination";
 const TaskTable = ({ tasks, filterParams, hideProjectColumn = false }) => {
   filterParams = filterParams || {};
@@ -91,6 +96,14 @@ dark:text-gray-400 overflow-auto"
               Status
             </TableHead>
             <TableHead
+              name="priority"
+              sort_field={filterParams["sort_field"]}
+              sort_order={filterParams["sort_order"]}
+              sortColumn={sortColumn}
+            >
+              Priority
+            </TableHead>
+            <TableHead
               name="creation_date"
               sort_field={filterParams["sort_field"]}
               sort_order={filterParams["sort_order"]}
@@ -149,6 +162,7 @@ dark:text-gray-400 overflow-auto"
             <th className="px-3 py-3"></th>
             <th className="px-3 py-3"></th>
             <th className="px-3 py-3 text-right"></th>
+            <th className="px-3 py-3 text-right"></th>
             {!hideProjectColumn && <th className="px-3 py-3 text-right"></th>}
           </tr>
         </thead>
@@ -174,6 +188,16 @@ dark:text-gray-400 overflow-auto"
                   }
                 >
                   {TASK_STATUS_TEXT_MAP[task.status]}
+                </span>
+              </td>
+              <td className="px-3 py-2">
+                <span
+                  className={
+                    "px-2 py-1 rounded text-white" +
+                    TASK_PRIORITY_CLASS_MAP[task.priority]
+                  }
+                >
+                  {TASK_PRIORITY_TEXT_MAP[task.priority]}
                 </span>
               </td>
               <td className="px-3 py-2">{task.created_at}</td>
