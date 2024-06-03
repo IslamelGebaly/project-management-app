@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -63,7 +64,32 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        $tasks = $project->tasks();
+
+        //Get sort parameters
+        $sort_field = request("sort_field", "id");
+        $sort_order = request("sort_order","asc");
+
+        //filter by name
+        if(request("name"))
+            $tasks->where("name", "like","%". request("name") ."%");
+
+        //filter by status
+        if(request("status"))
+            $tasks->where("status", request("status"));
+
+        $tasks = $tasks
+                        ->orderBy($sort_field, $sort_order)
+                        ->paginate(10)
+                        ->onEachSide(1);
+
+        return inertia("Project/Show",
+            [
+                "project" => new ProjectResource($project),
+                "tasks" => TaskResource::collection($tasks),
+                "filterParams" => request()->query() ?: null
+            ]
+        );
     }
 
     /**
