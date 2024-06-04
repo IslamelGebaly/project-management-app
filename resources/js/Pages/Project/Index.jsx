@@ -10,7 +10,7 @@ import TextInput from "@/Components/TextInput";
 import SelectInput from "@/Components/SelectInput";
 import TableHead from "@/Components/TableHead";
 
-const Index = ({ auth, projects, filterParams = null }) => {
+const Index = ({ auth, projects, filterParams = null, success }) => {
   //ensures that filter params are treated as an object when its empty
   filterParams = filterParams || {};
 
@@ -50,19 +50,39 @@ const Index = ({ auth, projects, filterParams = null }) => {
     router.get(route("project.index"), filterParams);
   };
 
+  //Ask the user if he is sure he wants to delete the project
+  //The go to the delete route
+  const deleteRow = (project) => {
+    if (!window.confirm("Are you sure you want to delete this project?"))
+      return;
+    return router.delete(route("project.destroy", project.id));
+  };
+
   return (
     <Authenticated
       user={auth.user}
       header={
-        <h2
-          className="font-semibold text-xl
+        <div className="flex justify-between">
+          <h2
+            className="font-semibold text-xl
        text-gray-800 dark:text-gray-200 leading-tight"
-        >
-          Projects
-        </h2>
+          >
+            Projects
+          </h2>
+          <Link
+            href={route("project.create")}
+            className="text-white bg-blue-600 rounded-sm p-2"
+          >
+            New Project
+          </Link>
+        </div>
       }
     >
       <Head title="Projects" />
+
+      {success && (
+        <div className="bg-emerald-500 w-full text-white p-2">{success}</div>
+      )}
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -198,19 +218,19 @@ const Index = ({ auth, projects, filterParams = null }) => {
                       <td className="px-3 py-2">{project.created_at}</td>
                       <td className="px-3 py-2">{project.due_date}</td>
                       <td className="px-3 py-2">{project.created_by.name}</td>
-                      <td className="px-3 py-2">
+                      <td className="px-3 py-2 text-nowrap">
                         <Link
                           href={route("project.edit", project.id)}
                           className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
                         >
                           Edit
                         </Link>
-                        <Link
-                          href={route("project.destroy", project.id)}
+                        <button
+                          onClick={(e) => deleteRow(project)}
                           className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
                         >
                           Delete
-                        </Link>
+                        </button>
                       </td>
                     </tr>
                   ))}

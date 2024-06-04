@@ -50,7 +50,7 @@ const TaskTable = ({ tasks, filterParams, hideProjectColumn = false }) => {
   };
 
   return (
-    <div>
+    <>
       <table
         className="w-full text-sm text-left rtl:text-right text-gray-500
 dark:text-gray-400 overflow-auto"
@@ -222,7 +222,7 @@ dark:text-gray-400 overflow-auto"
         </tbody>
       </table>
       <Pagination links={tasks.meta.links} />
-    </div>
+    </>
   );
 };
 
