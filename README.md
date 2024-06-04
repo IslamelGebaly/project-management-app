@@ -1,23 +1,23 @@
-#Project Management App
+Project Management App
 =====================================
 
-##Introduction
+## Introduction
 An application made to help its users plan their projects. The users can include multiple tasks in their projects, view their projects' status, set due dates and assign tasks to users.
 
-##Features
+## Features
 - Sorting projects
 - Filtering projects by name and status
 - View tasks inside individual projects
 - Creating, updating and deleting projects
 - Viewing all tasks and projects in a table
 
-##Technologies
+## Technologies
 - Php Laravel
 - React js
 - Tailwind
 - SQLite
 
-##Installation
+## Installation
 1. Clone the project
 2. Navigate to the project's root directory using terminal
 3. Create .env file - cp .env.example .env
