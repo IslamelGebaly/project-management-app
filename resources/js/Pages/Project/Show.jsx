@@ -25,7 +25,6 @@ const Show = ({ auth, project, tasks, filterParams }) => {
               <img
                 className="w-full h-64 object-cover"
                 src={project.image_path}
-                alt=""
               />
               <div className="p-6 text-gray-900 dark:text-gray-100 grid grid-cols-2 mt-2 gap-1">
                 <section className="mt-2">
