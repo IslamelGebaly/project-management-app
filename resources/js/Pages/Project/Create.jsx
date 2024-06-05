@@ -68,10 +68,10 @@ const Create = ({ auth }) => {
                   <InputError message={errors.name} />
                 </section>
                 <section className="mb-2">
-                  <label htmlFor="description" className="mb-4">
-                    Description
-                  </label>
-                  <br />
+                  <InputLabel
+                    htmlFor="project_description"
+                    value="Description"
+                  />
                   <TextAreaInput
                     className="w-3/5"
                     name="description"
@@ -81,12 +81,10 @@ const Create = ({ auth }) => {
                       setData("description", e.target.value);
                     }}
                   />
+                  <InputError message={errors.description} />
                 </section>
                 <section className="mb-2">
-                  <label htmlFor="status" className="mb-4">
-                    Status
-                  </label>
-                  <br />
+                  <InputLabel htmlFor="project_status" value="Status" />
                   <SelectInput
                     name="status"
                     id="project_status"
@@ -100,12 +98,10 @@ const Create = ({ auth }) => {
                     <option value="in_progress">In Progress</option>
                     <option value="completed">Completed</option>
                   </SelectInput>
+                  <InputError message={errors.status} />
                 </section>
                 <section className="mb-2">
-                  <label htmlFor="due_date" className="mb-4">
-                    Due Date
-                  </label>
-                  <br />
+                  <InputLabel htmlFor="project_due_date" value="Due Date" />
                   <TextInput
                     type="date"
                     name="due_date"
@@ -113,6 +109,7 @@ const Create = ({ auth }) => {
                     value={data.due_date}
                     onChange={(e) => setData("due_date", e.target.value)}
                   />
+                  <InputError message={errors.due_date} />
                 </section>
                 <div className="text-right">
                   <Link

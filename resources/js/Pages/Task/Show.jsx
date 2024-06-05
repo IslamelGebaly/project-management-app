@@ -75,7 +75,7 @@ const Show = ({ auth, task, tasks, filterParams }) => {
 
                 <section className="mt-2">
                   <label className="font-bold text-lg">Assigned User</label>
-                  <p className="mt-4">{task.assign_user.name}</p>
+                  <p className="mt-4">{task.assigned_user.name}</p>
                 </section>
                 <section className="mt-2">
                   <label className="font-bold text-lg">Created by</label>

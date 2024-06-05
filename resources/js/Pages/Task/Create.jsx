@@ -1,7 +1,6 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import SelectInput from "@/Components/SelectInput";
-import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
@@ -16,7 +15,7 @@ const Create = ({ auth }) => {
     status: "",
     priority: "",
     due_date: "",
-    assigned_to: "",
+    assigned_user_id: "",
   });
 
   const submit = (e) => {
@@ -70,25 +69,42 @@ const Create = ({ auth }) => {
                   <InputError message={errors.name} />
                 </section>
                 <section className="mb-2">
-                  <label htmlFor="description" className="mb-4">
-                    Description
-                  </label>
-                  <br />
-                  <TextAreaInput
+                  <InputLabel
+                    htmlFor="task_project_id"
+                    value="Assign Project"
+                  />
+
+                  <TextInput
                     className="w-3/5"
-                    name="description"
-                    id="task_description"
-                    value={data.description}
+                    name="project_id"
+                    id="task_project_id"
+                    value={data.project_id}
                     onChange={(e) => {
-                      setData("description", e.target.value);
+                      setData("project_id", e.target.value);
                     }}
                   />
+                  <InputError message={errors.project_id} />
                 </section>
                 <section className="mb-2">
-                  <label htmlFor="status" className="mb-4">
-                    Status
-                  </label>
-                  <br />
+                  <InputLabel
+                    htmlFor="task_assigned_user"
+                    value="Assign User"
+                  />
+
+                  <TextInput
+                    className="w-3/5"
+                    name="assigned_user"
+                    id="task_assigned_user"
+                    value={data.assigned_user_id}
+                    onChange={(e) => {
+                      setData("assigned_user_id", e.target.value);
+                    }}
+                  />
+                  <InputError message={errors.assigned_user_id} />
+                </section>
+                <section className="mb-2">
+                  <InputLabel htmlFor="task_status" value="Status" />
+
                   <SelectInput
                     name="status"
                     id="task_status"
@@ -102,6 +118,25 @@ const Create = ({ auth }) => {
                     <option value="in_progress">In Progress</option>
                     <option value="completed">Completed</option>
                   </SelectInput>
+                  <InputError message={errors.status} />
+                </section>
+                <section className="mb-2">
+                  <InputLabel htmlFor="task_priority" value="Priority" />
+
+                  <SelectInput
+                    name="priority"
+                    id="task_priority"
+                    value={data.priority}
+                    onChange={(e) => {
+                      setData("priority", e.target.value);
+                    }}
+                  >
+                    <option value="">Select Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </SelectInput>
+                  <InputError message={errors.priority} />
                 </section>
                 <section className="mb-2">
                   <label htmlFor="due_date" className="mb-4">
@@ -115,6 +150,7 @@ const Create = ({ auth }) => {
                     value={data.due_date}
                     onChange={(e) => setData("due_date", e.target.value)}
                   />
+                  <InputError message={errors.due_date} />
                 </section>
                 <div className="text-right">
                   <Link
@@ -123,9 +159,11 @@ const Create = ({ auth }) => {
                   >
                     Cancel
                   </Link>
-                  <button className="p-2 text-white bg-blue-600 rounded hover:bg-blue-800 text-sm">
-                    Submit
-                  </button>
+                  <input
+                    type="submit"
+                    value="Submit"
+                    className="p-2 text-white bg-blue-600 rounded hover:bg-blue-800 text-sm"
+                  />
                 </div>
               </form>
             </div>
