@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TaskController extends Controller
 {
@@ -47,7 +51,8 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+
+        return inertia("Task/Create");
     }
 
     /**
@@ -55,7 +60,20 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $data = $request->validated();
+        /** @var $image UploadedFile */
+
+        $image = $data["image"] ?? null;
+        $data["created_by"] = Auth::id();
+        $data["updated_by"] = Auth::id();
+
+        if($image){
+            $data["image_path"] = $image->store('task/' . Str::random(), 'public');
+        }
+
+        Task::create($data);
+
+        return to_route("task.index")->with("success", "task was created successfully!");
     }
 
     /**
@@ -63,7 +81,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return inertia("Task/Show", [
+            "task" => new TaskResource($task),
+        ]);
     }
 
     /**
@@ -71,7 +91,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return inertia("Task/Edit", [
+            "task" => new TaskResource($task)
+        ]);
     }
 
     /**
@@ -79,14 +101,36 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $data = $request->validated();
+        $name = $data["name"];
+        $image = $data["image"] ?? null;
+        $data["updated_by"] = Auth::id();
+
+        //If the task has an image then delete it and add a new image
+        if($image){
+            if ($task->image_path) {
+                Storage::disk('public')->deleteDirectory(dirname($task->image_path));
+            }
+            $data["image_path"] = $image->store('task/' . Str::random(), 'public');
+        }
+
+        $task->update($data);
+
+        return to_route("task.index")->with("success", "Task \"$name\" was edited successfully!");
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Task $task)
     {
-        //
+        $name = $task->name;
+        $task->delete();
+        //Delete the task image directory
+        if ($task->image_path) {
+            Storage::disk('public')->deleteDirectory(dirname($task->image_path));
+        }
+        return to_route("task.index")->with("success", "Task \"$name\" was deleted successfully!");
     }
 }

@@ -2,7 +2,7 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import React from "react";
 import TaskTable from "@/Components/TaskTable";
-
+import { Link } from "@inertiajs/react";
 const Index = ({ auth, tasks, filterParams = null }) => {
   //ensures that filter params are treated as an object when its empty
 
@@ -10,12 +10,20 @@ const Index = ({ auth, tasks, filterParams = null }) => {
     <Authenticated
       user={auth.user}
       header={
-        <h2
-          className="font-semibold text-xl
+        <div className="flex justify-between">
+          <h2
+            className="font-semibold text-xl
        text-gray-800 dark:text-gray-200 leading-tight"
-        >
-          Tasks
-        </h2>
+          >
+            Tasks
+          </h2>
+          <Link
+            href={route("task.create")}
+            className="text-white bg-blue-600 rounded-sm p-2"
+          >
+            New Task
+          </Link>
+        </div>
       }
     >
       <Head title="Tasks" />

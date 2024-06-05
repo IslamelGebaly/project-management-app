@@ -1,7 +1,6 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import SelectInput from "@/Components/SelectInput";
-import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
@@ -12,14 +11,16 @@ const Create = ({ auth }) => {
   const { data, setData, post, processing, errors } = useForm({
     image: "",
     name: "",
-    description: "",
+    project_id: "",
     status: "",
+    priority: "",
     due_date: "",
+    assigned_user_id: "",
   });
 
   const submit = (e) => {
     e.preventDefault();
-    post(route("project.store"));
+    post(route("task.store"));
   };
 
   return (
@@ -30,11 +31,11 @@ const Create = ({ auth }) => {
           className="font-semibold text-xl
        text-gray-800 dark:text-gray-200 leading-tight"
         >
-          New Project
+          New Task
         </h2>
       }
     >
-      <Head title="New Project" />
+      <Head title="New Task" />
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -42,12 +43,12 @@ const Create = ({ auth }) => {
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <form onSubmit={submit}>
                 <section className="mb-2">
-                  <InputLabel htmlFor="project_image" value="Project Image" />
+                  <InputLabel htmlFor="task_image" value="Task Image" />
                   <TextInput
                     className="w-3/5"
                     name="image"
                     type="file"
-                    id="project_image"
+                    id="task_image"
                     onChange={(e) => {
                       setData("image", e.target.files[0]);
                     }}
@@ -55,11 +56,11 @@ const Create = ({ auth }) => {
                   <InputError message={errors.image} />
                 </section>
                 <section className="mb-2">
-                  <InputLabel htmlFor="project_name" value="Project Name" />
+                  <InputLabel htmlFor="task_name" value="Task Name" />
                   <TextInput
                     className="w-3/5"
                     name="name"
-                    id="project_name"
+                    id="task_name"
                     value={data.name}
                     onChange={(e) => {
                       setData("name", e.target.value);
@@ -69,25 +70,44 @@ const Create = ({ auth }) => {
                 </section>
                 <section className="mb-2">
                   <InputLabel
-                    htmlFor="project_description"
-                    value="Description"
+                    htmlFor="task_project_id"
+                    value="Assign Project"
                   />
-                  <TextAreaInput
+
+                  <TextInput
                     className="w-3/5"
-                    name="description"
-                    id="project_description"
-                    value={data.description}
+                    name="project_id"
+                    id="task_project_id"
+                    value={data.project_id}
                     onChange={(e) => {
-                      setData("description", e.target.value);
+                      setData("project_id", e.target.value);
                     }}
                   />
-                  <InputError message={errors.description} />
+                  <InputError message={errors.project_id} />
                 </section>
                 <section className="mb-2">
-                  <InputLabel htmlFor="project_status" value="Status" />
+                  <InputLabel
+                    htmlFor="task_assigned_user"
+                    value="Assign User"
+                  />
+
+                  <TextInput
+                    className="w-3/5"
+                    name="assigned_user"
+                    id="task_assigned_user"
+                    value={data.assigned_user_id}
+                    onChange={(e) => {
+                      setData("assigned_user_id", e.target.value);
+                    }}
+                  />
+                  <InputError message={errors.assigned_user_id} />
+                </section>
+                <section className="mb-2">
+                  <InputLabel htmlFor="task_status" value="Status" />
+
                   <SelectInput
                     name="status"
-                    id="project_status"
+                    id="task_status"
                     value={data.status}
                     onChange={(e) => {
                       setData("status", e.target.value);
@@ -101,11 +121,32 @@ const Create = ({ auth }) => {
                   <InputError message={errors.status} />
                 </section>
                 <section className="mb-2">
-                  <InputLabel htmlFor="project_due_date" value="Due Date" />
+                  <InputLabel htmlFor="task_priority" value="Priority" />
+
+                  <SelectInput
+                    name="priority"
+                    id="task_priority"
+                    value={data.priority}
+                    onChange={(e) => {
+                      setData("priority", e.target.value);
+                    }}
+                  >
+                    <option value="">Select Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </SelectInput>
+                  <InputError message={errors.priority} />
+                </section>
+                <section className="mb-2">
+                  <label htmlFor="due_date" className="mb-4">
+                    Due Date
+                  </label>
+                  <br />
                   <TextInput
                     type="date"
                     name="due_date"
-                    id="project_due_date"
+                    id="task_due_date"
                     value={data.due_date}
                     onChange={(e) => setData("due_date", e.target.value)}
                   />
@@ -113,14 +154,16 @@ const Create = ({ auth }) => {
                 </section>
                 <div className="text-right">
                   <Link
-                    href={route("project.index")}
+                    href={route("task.index")}
                     className="p-2 text-gray-800 bg-gray-100 rounded transition-all hover:bg-gray-200 mr-2 text-sm"
                   >
                     Cancel
                   </Link>
-                  <button className="p-2 text-white bg-blue-600 rounded hover:bg-blue-800 text-sm">
-                    Submit
-                  </button>
+                  <input
+                    type="submit"
+                    value="Submit"
+                    className="p-2 text-white bg-blue-600 rounded hover:bg-blue-800 text-sm"
+                  />
                 </div>
               </form>
             </div>

@@ -49,6 +49,11 @@ const TaskTable = ({ tasks, filterParams, hideProjectColumn = false }) => {
     router.get(route("task.index"), filterParams);
   };
 
+  const deleteRow = (task) => {
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
+    return router.delete(route("project.destroy", task.id));
+  };
+
   return (
     <>
       <table
@@ -176,7 +181,14 @@ dark:text-gray-400 overflow-auto"
               <td className="px-3 py-2">
                 <img src={task.image_path} style={{ width: 60 }} />
               </td>
-              <td className="px-3 py-2">{task.name}</td>
+              <td className="px-3 py-2">
+                <Link
+                  href={route("task.show", task.id)}
+                  className="hover:text-white hover:underline"
+                >
+                  {task.name}
+                </Link>
+              </td>
               {!hideProjectColumn && (
                 <td className="px-3 py-2">{task.project.name}</td>
               )}
@@ -204,18 +216,20 @@ dark:text-gray-400 overflow-auto"
               <td className="px-3 py-2">{task.due_date}</td>
               <td className="px-3 py-2">{task.created_by.name}</td>
               <td className="px-3 py-2">
-                <Link
-                  href={route("task.edit", task.id)}
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
-                >
-                  Edit
-                </Link>
-                <Link
-                  href={route("task.destroy", task.id)}
-                  className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                >
-                  Delete
-                </Link>
+                <div className="text-right flex justify-between">
+                  <Link
+                    href={route("task.edit", task.id)}
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={(e) => deleteRow(task)}
+                    className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                  >
+                    Delete
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
