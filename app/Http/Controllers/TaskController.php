@@ -47,7 +47,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return inertia("Task/Create");
     }
 
     /**
@@ -63,7 +63,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return inertia("Task/Show", [
+            "task" => new TaskResource($task),
+        ]);
     }
 
     /**

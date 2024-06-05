@@ -176,7 +176,14 @@ dark:text-gray-400 overflow-auto"
               <td className="px-3 py-2">
                 <img src={task.image_path} style={{ width: 60 }} />
               </td>
-              <td className="px-3 py-2">{task.name}</td>
+              <td className="px-3 py-2">
+                <Link
+                  href={route("task.show", task.id)}
+                  className="hover:text-white hover:underline"
+                >
+                  {task.name}
+                </Link>
+              </td>
               {!hideProjectColumn && (
                 <td className="px-3 py-2">{task.project.name}</td>
               )}
