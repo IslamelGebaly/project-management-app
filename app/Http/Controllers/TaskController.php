@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Resources\ProjectResource;
 use App\Http\Resources\TaskResource;
+use App\Http\Resources\UserResource;
+use App\Models\Project;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Models\User;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -42,7 +47,8 @@ class TaskController extends Controller
         //Return the react page
         return inertia("Task/Index", [
             "tasks" => TaskResource::collection($tasks),
-            "filterParams" => request()->query() ?: null
+            "filterParams" => request()->query() ?: null,
+            "success" => session("success")
         ]);
     }
 
@@ -52,7 +58,10 @@ class TaskController extends Controller
     public function create()
     {
 
-        return inertia("Task/Create");
+        return inertia("Task/Create", [
+            "users" => UserResource::collection(User::all()),
+            "projects" => ProjectResource::collection(Project::all()),
+        ]);
     }
 
     /**
@@ -92,7 +101,9 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         return inertia("Task/Edit", [
-            "task" => new TaskResource($task)
+            "task" => new TaskResource($task),
+            "users" => UserResource::collection(User::all()),
+            "projects" => ProjectResource::collection(Project::all()),
         ]);
     }
 

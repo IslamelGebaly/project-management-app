@@ -2,20 +2,22 @@ import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import SelectInput from "@/Components/SelectInput";
 import TextInput from "@/Components/TextInput";
+import TextAreaInput from "@/Components/TextAreaInput";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import { Link } from "@inertiajs/react";
 
-const Edit = ({ auth, task }) => {
+const Edit = ({ auth, task, users, projects }) => {
   const { data, setData, post, processing, errors } = useForm({
     image: "",
     name: task.name || "",
+    description: task.description || "",
     project_id: task.project.id || "",
+    assigned_user_id: task.assigned_user.id || "",
     status: task.status || "",
     priority: task.priority || "",
     due_date: task.due_date || "",
-    assigned_user_id: task.assigned_user.id || "",
     _method: "PUT",
   });
 
@@ -49,6 +51,7 @@ const Edit = ({ auth, task }) => {
                     className="w-full h-64 object-cover"
                   />
                 </div>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="task_image" value="Task Image" />
                   <TextInput
@@ -62,6 +65,7 @@ const Edit = ({ auth, task }) => {
                   />
                   <InputError message={errors.image} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="task_name" value="Task Name" />
                   <TextInput
@@ -75,13 +79,27 @@ const Edit = ({ auth, task }) => {
                   />
                   <InputError message={errors.name} />
                 </section>
+
+                <section className="mb-2">
+                  <InputLabel htmlFor="task_description" value="Description" />
+                  <TextAreaInput
+                    className="w-3/5"
+                    name="description"
+                    id="task_description"
+                    value={data.description}
+                    onChange={(e) => {
+                      setData("description", e.target.value);
+                    }}
+                  />
+                  <InputError message={errors.description} />
+                </section>
+
                 <section className="mb-2">
                   <InputLabel
                     htmlFor="task_project_id"
                     value="Assign Project"
                   />
-
-                  <TextInput
+                  <SelectInput
                     className="w-3/5"
                     name="project_id"
                     id="task_project_id"
@@ -89,26 +107,41 @@ const Edit = ({ auth, task }) => {
                     onChange={(e) => {
                       setData("project_id", e.target.value);
                     }}
-                  />
+                  >
+                    <option value="">Select Project</option>
+                    {projects.data.map((project) => (
+                      <option value={project.id} key={project.id}>
+                        {project.name}
+                      </option>
+                    ))}
+                  </SelectInput>
                   <InputError message={errors.project_id} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel
                     htmlFor="task_assigned_user"
                     value="Assign User"
                   />
 
-                  <TextInput
-                    className="w-3/5"
+                  <SelectInput
                     name="assigned_user"
                     id="task_assigned_user"
                     value={data.assigned_user_id}
                     onChange={(e) => {
                       setData("assigned_user_id", e.target.value);
                     }}
-                  />
+                  >
+                    <option value="">Select User</option>
+                    {users.data.map((user) => (
+                      <option value={user.id} key={user.id}>
+                        {user.name}
+                      </option>
+                    ))}
+                  </SelectInput>
                   <InputError message={errors.assigned_user_id} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="task_status" value="Status" />
 
@@ -127,6 +160,7 @@ const Edit = ({ auth, task }) => {
                   </SelectInput>
                   <InputError message={errors.status} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="task_priority" value="Priority" />
 
@@ -145,6 +179,7 @@ const Edit = ({ auth, task }) => {
                   </SelectInput>
                   <InputError message={errors.priority} />
                 </section>
+
                 <section className="mb-2">
                   <label htmlFor="due_date" className="mb-4">
                     Due Date
@@ -159,6 +194,7 @@ const Edit = ({ auth, task }) => {
                   />
                   <InputError message={errors.due_date} />
                 </section>
+
                 <div className="text-right">
                   <Link
                     href={route("task.index")}

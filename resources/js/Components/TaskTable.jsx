@@ -51,11 +51,11 @@ const TaskTable = ({ tasks, filterParams, hideProjectColumn = false }) => {
 
   const deleteRow = (task) => {
     if (!window.confirm("Are you sure you want to delete this task?")) return;
-    return router.delete(route("project.destroy", task.id));
+    return router.delete(route("task.destroy", task.id));
   };
 
   return (
-    <>
+    <div className="overflow-auto">
       <table
         className="w-full text-sm text-left rtl:text-right text-gray-500
 dark:text-gray-400 overflow-auto"
@@ -236,7 +236,7 @@ dark:text-gray-400 overflow-auto"
         </tbody>
       </table>
       <Pagination links={tasks.meta.links} />
-    </>
+    </div>
   );
 };
 

@@ -69,26 +69,35 @@ const Show = ({ auth, task, tasks, filterParams }) => {
                 </section>
 
                 <section className="mt-2">
+                  <label className="font-bold text-lg">Description</label>
+                  <p className="mt-4">{task.description}</p>
+                </section>
+
+                <section className="mt-2">
+                  <label className="font-bold text-lg">Created by</label>
+                  <p className="mt-4">{task.created_by.name}</p>
+                </section>
+
+                <section className="mt-2">
                   <label className="font-bold text-lg">Project Name</label>
                   <p className="mt-4">{task.project.name}</p>
+                </section>
+
+                <section className="mt-2">
+                  <label className="font-bold text-lg">Updated by</label>
+                  <p className="mt-4">{task.updated_by.name}</p>
                 </section>
 
                 <section className="mt-2">
                   <label className="font-bold text-lg">Assigned User</label>
                   <p className="mt-4">{task.assigned_user.name}</p>
                 </section>
-                <section className="mt-2">
-                  <label className="font-bold text-lg">Created by</label>
-                  <p className="mt-4">{task.created_by.name}</p>
-                </section>
-                <section className="mt-2">
-                  <label className="font-bold text-lg">Updated by</label>
-                  <p className="mt-4">{task.updated_by.name}</p>
-                </section>
+
                 <section className="mt-2">
                   <label className="font-bold text-lg">Due Date</label>
                   <p className="mt-4">{task.due_date}</p>
                 </section>
+
                 <section className="mt-2">
                   <label className="font-bold text-lg">Created at</label>
                   <p className="mt-4">{task.created_at}</p>

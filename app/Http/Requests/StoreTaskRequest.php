@@ -25,6 +25,7 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             "name" => ["required", "max:255"],
+            "description" => ["nullable", "string"],
             "project_id" => ["nullable","integer", "exists:projects,id"],
             "assigned_user_id" => ["nullable", "integer", "exists:users,id"],
             "image" => ["nullable", "image"],

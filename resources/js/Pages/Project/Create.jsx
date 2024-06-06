@@ -54,6 +54,7 @@ const Create = ({ auth }) => {
                   />
                   <InputError message={errors.image} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="project_name" value="Project Name" />
                   <TextInput
@@ -67,6 +68,7 @@ const Create = ({ auth }) => {
                   />
                   <InputError message={errors.name} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel
                     htmlFor="project_description"
@@ -83,6 +85,7 @@ const Create = ({ auth }) => {
                   />
                   <InputError message={errors.description} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="project_status" value="Status" />
                   <SelectInput
@@ -100,6 +103,7 @@ const Create = ({ auth }) => {
                   </SelectInput>
                   <InputError message={errors.status} />
                 </section>
+
                 <section className="mb-2">
                   <InputLabel htmlFor="project_due_date" value="Due Date" />
                   <TextInput
@@ -111,6 +115,7 @@ const Create = ({ auth }) => {
                   />
                   <InputError message={errors.due_date} />
                 </section>
+
                 <div className="text-right">
                   <Link
                     href={route("project.index")}
