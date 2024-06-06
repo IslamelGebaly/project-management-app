@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserCrudResource;
+use App\Models\Task;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -39,7 +40,8 @@ class UserController extends Controller
         return inertia("User/Index", [
             "users" => UserCrudResource::collection($users),
             "filterParams" => request()->query() ?: null,
-            "success" => session("success")
+            "success" => session("success"),
+            "failure"=> session("failure"),
         ]);
     }
 
@@ -104,6 +106,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $name = $user->name;
+
+        //If the user still has some tasks to do return a failure
+        if(! $user->tasks->isEmpty())
+            return to_route("user.index")->with("failure", "User \"$name\" still has tasks to do");
+
         $user->delete();
 
         return to_route("user.index")->with("success", "User \"$name\" was deleted successfully!");

@@ -5,7 +5,7 @@ import React from "react";
 import TextInput from "@/Components/TextInput";
 import TableHead from "@/Components/TableHead";
 
-const Index = ({ auth, users, filterParams = null, success }) => {
+const Index = ({ auth, users, filterParams = null, success, failure }) => {
   //ensures that filter params are treated as an object when its empty
   filterParams = filterParams || {};
 
@@ -76,6 +76,10 @@ const Index = ({ auth, users, filterParams = null, success }) => {
 
       {success && (
         <div className="bg-emerald-500 w-full text-white p-2">{success}</div>
+      )}
+
+      {failure && (
+        <div className="bg-red-500 w-full text-white p-2">{failure}</div>
       )}
 
       <div className="py-12">

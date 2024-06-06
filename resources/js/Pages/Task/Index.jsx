@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 import React from "react";
 import TaskTable from "@/Components/TaskTable";
 import { Link } from "@inertiajs/react";
-const Index = ({ auth, tasks, filterParams = null }) => {
+const Index = ({ auth, tasks, filterParams = null, success }) => {
   //ensures that filter params are treated as an object when its empty
 
   return (
@@ -27,6 +27,10 @@ const Index = ({ auth, tasks, filterParams = null }) => {
       }
     >
       <Head title="Tasks" />
+
+      {success && (
+        <div className="bg-emerald-500 w-full text-white p-2">{success}</div>
+      )}
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
