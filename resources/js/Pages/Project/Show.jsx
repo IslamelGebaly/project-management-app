@@ -1,4 +1,4 @@
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import React from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import TaskTable from "@/Components/TaskTable";
@@ -8,12 +8,20 @@ const Show = ({ auth, project, tasks, filterParams }) => {
     <Authenticated
       user={auth.user}
       header={
-        <h2
-          className="font-semibold text-xl
-       text-gray-800 dark:text-gray-200 leading-tight"
-        >
-          {`Project "${project.name}"`}
-        </h2>
+        <div className="flex justify-between">
+          <h2
+            className="font-semibold text-xl
+     text-gray-800 dark:text-gray-200 leading-tight"
+          >
+            {`Project "${project.name}"`}
+          </h2>
+          <Link
+            href={route("project.edit", project.id)}
+            className="text-white bg-emerald-600 rounded-sm p-2"
+          >
+            Edit
+          </Link>
+        </div>
       }
     >
       <Head title={`Project "${project.name}"`} />

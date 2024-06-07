@@ -3,7 +3,13 @@ import { Head } from "@inertiajs/react";
 import React from "react";
 import TaskTable from "@/Components/TaskTable";
 import { Link } from "@inertiajs/react";
-const Index = ({ auth, tasks, filterParams = null, success }) => {
+const Index = ({
+  auth,
+  tasks,
+  filterParams = null,
+  hideUserColumn,
+  success,
+}) => {
   //ensures that filter params are treated as an object when its empty
 
   return (
@@ -36,7 +42,11 @@ const Index = ({ auth, tasks, filterParams = null, success }) => {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
-              <TaskTable tasks={tasks} filterParams={filterParams} />
+              <TaskTable
+                tasks={tasks}
+                filterParams={filterParams}
+                hideUserColumn={hideUserColumn}
+              />
             </div>
           </div>
         </div>

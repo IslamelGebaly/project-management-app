@@ -11,7 +11,6 @@ use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\User;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -143,5 +142,35 @@ class TaskController extends Controller
             Storage::disk('public')->deleteDirectory(dirname($task->image_path));
         }
         return to_route("task.index")->with("success", "Task \"$name\" was deleted successfully!");
+    }
+
+    public function myTasks(){
+
+        $tasks = task::query()->where("assigned_user_id", Auth::id());
+        //Get sort parameters
+        $sort_field = request("sort_field", "id");
+        $sort_order = request("sort_order","asc");
+
+        //filter by name
+        if(request("name"))
+            $tasks->where("name", "like","%". request("name") ."%");
+
+        //filter by status
+        if(request("status"))
+            $tasks->where("status", request("status"));
+
+        //Show one task on each page
+        $tasks = $tasks
+                          ->orderBy($sort_field, $sort_order)
+                          ->paginate(10)
+                          ->onEachSide(1);
+
+        return inertia("Task/Index", [
+            "tasks" => TaskResource::collection($tasks),
+            "filterParams" => request()->query() ?: null,
+            "success" => session("success"),
+            "hideUserColumn" => true
+        ]);
+
     }
 }
