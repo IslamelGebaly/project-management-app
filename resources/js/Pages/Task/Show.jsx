@@ -1,25 +1,33 @@
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import React from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import TaskTable from "@/Components/TaskTable";
 import {
   TASK_PRIORITY_CLASS_MAP,
   TASK_PRIORITY_TEXT_MAP,
   TASK_STATUS_CLASS_MAP,
   TASK_STATUS_TEXT_MAP,
 } from "@/constants";
+
 //Get individual task page
-const Show = ({ auth, task, tasks, filterParams }) => {
+const Show = ({ auth, task }) => {
   return (
     <Authenticated
       user={auth.user}
       header={
-        <h2
-          className="font-semibold text-xl
+        <div className="flex justify-between">
+          <h2
+            className="font-semibold text-xl
        text-gray-800 dark:text-gray-200 leading-tight"
-        >
-          {`Task "${task.name}"`}
-        </h2>
+          >
+            {`Task "${task.name}"`}
+          </h2>
+          <Link
+            href={route("task.edit", task.id)}
+            className="text-white bg-emerald-600 rounded-sm p-2"
+          >
+            Edit
+          </Link>
+        </div>
       }
     >
       <Head title={`Task "${task.name}"`} />
@@ -80,7 +88,14 @@ const Show = ({ auth, task, tasks, filterParams }) => {
 
                 <section className="mt-2">
                   <label className="font-bold text-lg">Project Name</label>
-                  <p className="mt-4">{task.project.name}</p>
+                  <p className="mt-4">
+                    <Link
+                      href={route("project.show", task.project.id)}
+                      className="hover:text-white hover:underline"
+                    >
+                      {task.project.name}
+                    </Link>
+                  </p>
                 </section>
 
                 <section className="mt-2">
@@ -90,7 +105,14 @@ const Show = ({ auth, task, tasks, filterParams }) => {
 
                 <section className="mt-2">
                   <label className="font-bold text-lg">Assigned User</label>
-                  <p className="mt-4">{task.assigned_user.name}</p>
+                  <p className="mt-4">
+                    <Link
+                      href={route("user.show", task.assigned_user.id)}
+                      className="hover:text-white hover:underline"
+                    >
+                      {task.assigned_user.name}
+                    </Link>
+                  </p>
                 </section>
 
                 <section className="mt-2">

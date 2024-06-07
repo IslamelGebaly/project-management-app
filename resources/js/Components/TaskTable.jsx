@@ -10,7 +10,12 @@ import {
   TASK_PRIORITY_TEXT_MAP,
 } from "@/constants";
 import Pagination from "./Pagination";
-const TaskTable = ({ tasks, filterParams, hideProjectColumn = false }) => {
+const TaskTable = ({
+  tasks,
+  filterParams,
+  hideProjectColumn = false,
+  hideUserColumn = false,
+}) => {
   filterParams = filterParams || {};
 
   //Update filtering parameters and update the current route with the parameters
@@ -125,6 +130,7 @@ dark:text-gray-400 overflow-auto"
               Due Date
             </TableHead>
             <th className="px-3 py-3">Created By</th>
+            {!hideUserColumn && <th className="px-3 py-3">Assigned To</th>}
             <th className="px-3 py-3 text-right">Actions</th>
           </tr>
         </thead>
@@ -168,6 +174,7 @@ dark:text-gray-400 overflow-auto"
             <th className="px-3 py-3"></th>
             <th className="px-3 py-3 text-right"></th>
             <th className="px-3 py-3 text-right"></th>
+            {!hideUserColumn && <th className="px-3 py-3 text-right"></th>}
             {!hideProjectColumn && <th className="px-3 py-3 text-right"></th>}
           </tr>
         </thead>
@@ -190,7 +197,14 @@ dark:text-gray-400 overflow-auto"
                 </Link>
               </td>
               {!hideProjectColumn && (
-                <td className="px-3 py-2">{task.project.name}</td>
+                <td className="px-3 py-2">
+                  <Link
+                    href={route("project.show", task.project.id)}
+                    className="hover:text-white hover:underline"
+                  >
+                    {task.project.name}
+                  </Link>
+                </td>
               )}
               <td className="px-3 py-2">
                 <span
@@ -215,6 +229,9 @@ dark:text-gray-400 overflow-auto"
               <td className="px-3 py-2">{task.created_at}</td>
               <td className="px-3 py-2">{task.due_date}</td>
               <td className="px-3 py-2">{task.created_by.name}</td>
+              {!hideUserColumn && (
+                <td className="px-3 py-2">{task.assigned_user.name}</td>
+              )}
               <td className="px-3 py-2">
                 <div className="text-right flex justify-between">
                   <Link
